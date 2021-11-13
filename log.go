@@ -20,7 +20,7 @@ func New(w io.Writer) *Logger {
 
 func (l *Logger) Debug(msg string) *Logger {
 	l.buf = &bytes.Buffer{}
-	_, err := l.buf.WriteString(l.addDebugColor("DEBUG") + " " + "message" + ":" + msg)
+	_, err := l.buf.WriteString(addDebugColor("DEBUG") + " " + "message" + ":" + msg)
 	if err != nil {
 		panic(err)
 	}
@@ -29,7 +29,7 @@ func (l *Logger) Debug(msg string) *Logger {
 
 func (l *Logger) Info(msg string) *Logger {
 	l.buf = &bytes.Buffer{}
-	_, err := l.buf.WriteString(l.addInfoColor("INFO") + " " + "message" + ":" + msg)
+	_, err := l.buf.WriteString(addInfoColor("INFO") + " " + "message" + ":" + msg)
 	if err != nil {
 		panic(err)
 	}
@@ -90,10 +90,10 @@ const (
 
 type Color uint8
 
-func (*Logger) addDebugColor(level string) string {
+func addDebugColor(level string) string {
 	return fmt.Sprintf("\x1b[%dm%s\x1b[0m", uint8(Yellow), level)
 }
 
-func (*Logger) addInfoColor(level string) string {
+func addInfoColor(level string) string {
 	return fmt.Sprintf("\x1b[%dm%s\x1b[0m", uint8(Blue), level)
 }
