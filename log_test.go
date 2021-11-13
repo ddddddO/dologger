@@ -26,7 +26,8 @@ func TestLogger_Debug(t *testing.T) {
 			want: "\x1b[33mDEBUG\x1b[0m message:debug for test name:ddddd id:1111\n",
 		},
 		{
-			name: "output json",
+			name:     "output json",
+			modeFunc: log.WithJSON,
 			in: map[string]interface{}{
 				"message": "debug for test",
 				"name":    "ddddd",
@@ -37,9 +38,9 @@ func TestLogger_Debug(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if tt.modeFunc != nil {
-			tt.modeFunc()
-		}
+		t.Log(tt.name)
+
+		tt.modeFunc()
 
 		log.Debug(tt.in["message"].(string)).Str("name", tt.in["name"].(string)).Int("id", tt.in["id"].(int)).Output()
 		got := buf.String()
@@ -47,6 +48,7 @@ func TestLogger_Debug(t *testing.T) {
 		if got != tt.want {
 			t.Errorf("got:%s\nwant:%s", got, tt.want)
 		}
+		buf.Reset()
 	}
 }
 
@@ -73,9 +75,9 @@ func TestLogger_Info(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		if tt.modeFunc != nil {
-			tt.modeFunc()
-		}
+		t.Log(tt.name)
+
+		tt.modeFunc()
 
 		log.Info(tt.in["message"].(string)).Str("name", tt.in["name"].(string)).Int("id", tt.in["id"].(int)).Output()
 		got := buf.String()
@@ -83,5 +85,6 @@ func TestLogger_Info(t *testing.T) {
 		if got != tt.want {
 			t.Errorf("got:%s\nwant:%s", got, tt.want)
 		}
+		buf.Reset()
 	}
 }

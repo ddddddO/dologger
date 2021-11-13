@@ -28,6 +28,10 @@ const (
 	modeTree
 )
 
+func (l *Logger) WithJSON() {
+	l.mode = modeJSON
+}
+
 func (l *Logger) WithPlain() {
 	l.mode = modePlain
 }
@@ -45,9 +49,18 @@ func (l *Logger) Debug(msg string) *Logger {
 		if err != nil {
 			panic(err)
 		}
+	case modeJSON:
+		_, err := l.buf.WriteString(quote("level") + ":" + quote("DEBUG") + "," + quote("message") + ":" + quote(msg))
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	return l
+}
+
+func quote(s string) string {
+	return `"` + s + `"`
 }
 
 func (l *Logger) Info(msg string) *Logger {
@@ -72,6 +85,12 @@ func (l *Logger) Str(key, msg string) *Logger {
 		if err != nil {
 			panic(err)
 		}
+	case modeJSON:
+		tmp := "," + quote(key) + ":" + quote(msg)
+		_, err := l.buf.WriteString(tmp)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	return l
@@ -85,6 +104,12 @@ func (l *Logger) Int(key string, n int) *Logger {
 		if err != nil {
 			panic(err)
 		}
+	case modeJSON:
+		tmp := "," + quote(key) + ":" + strconv.Itoa(n)
+		_, err := l.buf.WriteString(tmp)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	return l
@@ -92,15 +117,20 @@ func (l *Logger) Int(key string, n int) *Logger {
 
 // TODO: Loggerにio.Writerを持たせて、File or 標準出力できるようにする
 func (l *Logger) Output() {
+	defer l.buf.Reset()
+
 	switch l.mode {
 	case modePlain:
 		_, err := l.buf.WriteString("\n")
 		if err != nil {
 			panic(err)
 		}
+		l.w.Write(l.buf.Bytes())
+	case modeJSON:
+		tmp := append([]byte("{"), l.buf.Bytes()...)
+		tmp = append(tmp, []byte("}\n")...)
+		l.w.Write(tmp)
 	}
-
-	l.w.Write(l.buf.Bytes())
 }
 
 // https://github.com/uber-go/zap/blob/master/internal/color/color.go
