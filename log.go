@@ -6,8 +6,6 @@ import (
 	"strconv"
 )
 
-// console出力時のカラーは以下がつかえそう
-// https://github.com/uber-go/zap/blob/master/internal/color/color.go
 type Logger struct {
 	buf *bytes.Buffer
 }
@@ -18,7 +16,7 @@ func New() *Logger {
 
 func (l *Logger) Debug() *Logger {
 	l.buf = &bytes.Buffer{}
-	_, err := l.buf.WriteString("DEBUG")
+	_, err := l.buf.WriteString(l.addDebugColor("DEBUG"))
 	if err != nil {
 		panic(err)
 	}
@@ -59,4 +57,22 @@ func (l *Logger) isBufEmpty() bool {
 // TODO: Loggerにio.Writerを持たせて、File or 標準出力できるようにする
 func (l *Logger) Output() {
 	fmt.Println(l.buf.String())
+}
+
+// https://github.com/uber-go/zap/blob/master/internal/color/color.go
+const (
+	Black Color = iota + 30
+	Red
+	Green
+	Yellow
+	Blue
+	Magenta
+	Cyan
+	White
+)
+
+type Color uint8
+
+func (*Logger) addDebugColor(level string) string {
+	return fmt.Sprintf("\x1b[%dm%s\x1b[0m", uint8(Yellow), level)
 }
