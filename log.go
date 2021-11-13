@@ -18,18 +18,18 @@ func New(w io.Writer) *Logger {
 	}
 }
 
-func (l *Logger) Debug() *Logger {
+func (l *Logger) Debug(msg string) *Logger {
 	l.buf = &bytes.Buffer{}
-	_, err := l.buf.WriteString(l.addDebugColor("DEBUG"))
+	_, err := l.buf.WriteString(l.addDebugColor("DEBUG") + " " + "message" + ":" + msg)
 	if err != nil {
 		panic(err)
 	}
 	return l
 }
 
-func (l *Logger) Info() *Logger {
+func (l *Logger) Info(msg string) *Logger {
 	l.buf = &bytes.Buffer{}
-	_, err := l.buf.WriteString(l.addInfoColor("INFO"))
+	_, err := l.buf.WriteString(l.addInfoColor("INFO") + " " + "message" + ":" + msg)
 	if err != nil {
 		panic(err)
 	}
