@@ -72,6 +72,11 @@ func (l *Logger) Info(msg string) *Logger {
 		if err != nil {
 			panic(err)
 		}
+	case modeJSON:
+		_, err := l.buf.WriteString(quote("level") + ":" + quote("INFO") + "," + quote("message") + ":" + quote(msg))
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	return l
