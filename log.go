@@ -32,6 +32,7 @@ func (l *Logger) WithJSON() {
 	l.mode = modeJSON
 }
 
+// for console
 func (l *Logger) WithPlain() {
 	l.mode = modePlain
 }
@@ -42,18 +43,18 @@ func (l *Logger) WithTree() {
 
 func (l *Logger) Debug(msg string) *Logger {
 	l.buf = &bytes.Buffer{}
+	tmp := ""
 
 	switch l.mode {
 	case modePlain:
-		_, err := l.buf.WriteString(addDebugColor("DEBUG") + " " + "message" + ":" + msg)
-		if err != nil {
-			panic(err)
-		}
+		tmp = addDebugColor("DEBUG") + " " + "message" + ":" + msg
 	case modeJSON:
-		_, err := l.buf.WriteString(quote("level") + ":" + quote("DEBUG") + "," + quote("message") + ":" + quote(msg))
-		if err != nil {
-			panic(err)
-		}
+		tmp = quote("level") + ":" + quote("DEBUG") + "," + quote("message") + ":" + quote(msg)
+	}
+
+	_, err := l.buf.WriteString(tmp)
+	if err != nil {
+		panic(err)
 	}
 
 	return l
@@ -65,56 +66,54 @@ func quote(s string) string {
 
 func (l *Logger) Info(msg string) *Logger {
 	l.buf = &bytes.Buffer{}
+	tmp := ""
 
 	switch l.mode {
 	case modePlain:
-		_, err := l.buf.WriteString(addInfoColor("INFO") + " " + "message" + ":" + msg)
-		if err != nil {
-			panic(err)
-		}
+		tmp = addInfoColor("INFO") + " " + "message" + ":" + msg
 	case modeJSON:
-		_, err := l.buf.WriteString(quote("level") + ":" + quote("INFO") + "," + quote("message") + ":" + quote(msg))
-		if err != nil {
-			panic(err)
-		}
+		tmp = quote("level") + ":" + quote("INFO") + "," + quote("message") + ":" + quote(msg)
+	}
+
+	_, err := l.buf.WriteString(tmp)
+	if err != nil {
+		panic(err)
 	}
 
 	return l
 }
 
 func (l *Logger) Str(key, msg string) *Logger {
+	tmp := ""
+
 	switch l.mode {
 	case modePlain:
-		tmp := " " + key + ":" + msg
-		_, err := l.buf.WriteString(tmp)
-		if err != nil {
-			panic(err)
-		}
+		tmp = " " + key + ":" + msg
 	case modeJSON:
-		tmp := "," + quote(key) + ":" + quote(msg)
-		_, err := l.buf.WriteString(tmp)
-		if err != nil {
-			panic(err)
-		}
+		tmp = "," + quote(key) + ":" + quote(msg)
+	}
+
+	_, err := l.buf.WriteString(tmp)
+	if err != nil {
+		panic(err)
 	}
 
 	return l
 }
 
 func (l *Logger) Int(key string, n int) *Logger {
+	tmp := ""
+
 	switch l.mode {
 	case modePlain:
-		tmp := " " + key + ":" + strconv.Itoa(n)
-		_, err := l.buf.WriteString(tmp)
-		if err != nil {
-			panic(err)
-		}
+		tmp = " " + key + ":" + strconv.Itoa(n)
 	case modeJSON:
-		tmp := "," + quote(key) + ":" + strconv.Itoa(n)
-		_, err := l.buf.WriteString(tmp)
-		if err != nil {
-			panic(err)
-		}
+		tmp = "," + quote(key) + ":" + strconv.Itoa(n)
+	}
+
+	_, err := l.buf.WriteString(tmp)
+	if err != nil {
+		panic(err)
 	}
 
 	return l
@@ -122,7 +121,7 @@ func (l *Logger) Int(key string, n int) *Logger {
 
 // TODO: Loggerにio.Writerを持たせて、File or 標準出力できるようにする
 func (l *Logger) Output() {
-	defer l.buf.Reset()
+	var tmp []byte
 
 	switch l.mode {
 	case modePlain:
@@ -130,12 +129,13 @@ func (l *Logger) Output() {
 		if err != nil {
 			panic(err)
 		}
-		l.w.Write(l.buf.Bytes())
+		tmp = l.buf.Bytes()
 	case modeJSON:
-		tmp := append([]byte("{"), l.buf.Bytes()...)
+		tmp = append([]byte("{"), l.buf.Bytes()...)
 		tmp = append(tmp, []byte("}\n")...)
-		l.w.Write(tmp)
 	}
+
+	l.w.Write(tmp)
 }
 
 // https://github.com/uber-go/zap/blob/master/internal/color/color.go
