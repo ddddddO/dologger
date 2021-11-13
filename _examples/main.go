@@ -11,4 +11,9 @@ func main() {
 		Str("name", "ddddd").
 		Int("id", 1111).
 		Output()
+
+	logger.Info().
+		Str("name", "aaaaa").
+		Int("id", 22222).
+		Output()
 }

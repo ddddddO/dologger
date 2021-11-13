@@ -23,6 +23,15 @@ func (l *Logger) Debug() *Logger {
 	return l
 }
 
+func (l *Logger) Info() *Logger {
+	l.buf = &bytes.Buffer{}
+	_, err := l.buf.WriteString(l.addInfoColor("INFO"))
+	if err != nil {
+		panic(err)
+	}
+	return l
+}
+
 func (l *Logger) Str(key, msg string) *Logger {
 	tmp := key + ":" + msg
 	if !l.isBufEmpty() {
@@ -75,4 +84,8 @@ type Color uint8
 
 func (*Logger) addDebugColor(level string) string {
 	return fmt.Sprintf("\x1b[%dm%s\x1b[0m", uint8(Yellow), level)
+}
+
+func (*Logger) addInfoColor(level string) string {
+	return fmt.Sprintf("\x1b[%dm%s\x1b[0m", uint8(Blue), level)
 }
