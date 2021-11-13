@@ -3,15 +3,19 @@ package dologger
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"strconv"
 )
 
 type Logger struct {
 	buf *bytes.Buffer
+	w   io.Writer
 }
 
-func New() *Logger {
-	return &Logger{}
+func New(w io.Writer) *Logger {
+	return &Logger{
+		w: w,
+	}
 }
 
 func (l *Logger) Debug() *Logger {
@@ -65,7 +69,11 @@ func (l *Logger) isBufEmpty() bool {
 
 // TODO: Loggerにio.Writerを持たせて、File or 標準出力できるようにする
 func (l *Logger) Output() {
-	fmt.Println(l.buf.String())
+	_, err := l.buf.WriteString("\n")
+	if err != nil {
+		panic(err)
+	}
+	l.w.Write(l.buf.Bytes())
 }
 
 // https://github.com/uber-go/zap/blob/master/internal/color/color.go

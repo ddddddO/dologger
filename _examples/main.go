@@ -1,11 +1,13 @@
 package main
 
 import (
+	"os"
+
 	dl "github.com/ddddddO/dologger"
 )
 
 func main() {
-	logger := dl.New()
+	logger := dl.New(os.Stdout)
 
 	logger.Debug().
 		Str("name", "ddddd").
