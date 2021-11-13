@@ -72,6 +72,16 @@ func TestLogger_Info(t *testing.T) {
 			},
 			want: "\x1b[34mINFO\x1b[0m message:info for test name:aaaaa id:22222\n",
 		},
+		{
+			name:     "output json",
+			modeFunc: log.WithJSON,
+			in: map[string]interface{}{
+				"message": "info for test",
+				"name":    "aaaaa",
+				"id":      22222,
+			},
+			want: "{\"level\":\"INFO\",\"message\":\"info for test\",\"name\":\"aaaaa\",\"id\":22222}\n",
+		},
 	}
 
 	for _, tt := range tests {
