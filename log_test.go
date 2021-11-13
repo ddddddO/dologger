@@ -25,10 +25,22 @@ func TestLogger_Debug(t *testing.T) {
 			},
 			want: "\x1b[33mDEBUG\x1b[0m message:debug for test name:ddddd id:1111\n",
 		},
+		{
+			name: "output json",
+			in: map[string]interface{}{
+				"message": "debug for test",
+				"name":    "ddddd",
+				"id":      1111,
+			},
+			want: "{\"level\":\"DEBUG\",\"message\":\"debug for test\",\"name\":\"ddddd\",\"id\":1111}\n",
+		},
 	}
 
 	for _, tt := range tests {
-		tt.modeFunc()
+		if tt.modeFunc != nil {
+			tt.modeFunc()
+		}
+
 		log.Debug(tt.in["message"].(string)).Str("name", tt.in["name"].(string)).Int("id", tt.in["id"].(int)).Output()
 		got := buf.String()
 
@@ -61,7 +73,10 @@ func TestLogger_Info(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt.modeFunc()
+		if tt.modeFunc != nil {
+			tt.modeFunc()
+		}
+
 		log.Info(tt.in["message"].(string)).Str("name", tt.in["name"].(string)).Int("id", tt.in["id"].(int)).Output()
 		got := buf.String()
 
