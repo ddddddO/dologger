@@ -136,7 +136,7 @@ func (l *Logger) Int(key string, n int) *Logger {
 }
 
 // TODO: Loggerにio.Writerを持たせて、File or 標準出力できるようにする
-func (l *Logger) Output() {
+func (l *Logger) Out() {
 	var tmp []byte
 
 	switch l.mode {

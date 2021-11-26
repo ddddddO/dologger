@@ -89,7 +89,7 @@ func TestLogger_Info(t *testing.T) {
 
 		tt.modeFunc()
 
-		log.Info(tt.in["message"].(string)).Str("name", tt.in["name"].(string)).Int("id", tt.in["id"].(int)).Output()
+		log.Info(tt.in["message"].(string)).Str("name", tt.in["name"].(string)).Int("id", tt.in["id"].(int)).Out()
 		got := buf.String()
 
 		if got != tt.want {

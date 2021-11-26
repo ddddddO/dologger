@@ -19,7 +19,7 @@ func plainMode() {
 	log.Debug("for debug").
 		Str("name", "ddddd").
 		Int("id", 1111).
-		Output()
+		Out()
 
 	// Output:
 	// DEBUG message:for debug name:ddddd id:1111
@@ -33,7 +33,7 @@ func jsonMode() {
 	log.Debug("for debug").
 		Str("name", "ddddd").
 		Int("id", 1111).
-		Output()
+		Out()
 
 	// Output:
 	// {"level":"DEBUG","message":"for debug","name":"ddddd","id":1111}
@@ -46,7 +46,7 @@ func treeMode() {
 	log.Debug("for debug").
 		Str("name", "ddddd").
 		Int("id", 1111).
-		Output()
+		Out()
 
 	// Output:
 	// DEBUG
