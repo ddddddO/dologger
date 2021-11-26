@@ -42,7 +42,7 @@ func TestLogger_Debug(t *testing.T) {
 
 		tt.modeFunc()
 
-		log.Debug(tt.in["message"].(string)).Str("name", tt.in["name"].(string)).Int("id", tt.in["id"].(int)).Output()
+		log.Debug(tt.in["message"].(string)).Str("name", tt.in["name"].(string)).Int("id", tt.in["id"].(int)).Out()
 		got := buf.String()
 
 		if got != tt.want {

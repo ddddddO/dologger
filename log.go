@@ -6,7 +6,7 @@ import (
 	"io"
 	"strconv"
 
-	g "github.com/ddddddO/gtree/v6"
+	g "github.com/ddddddO/gtree"
 )
 
 type Logger struct {
