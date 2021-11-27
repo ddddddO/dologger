@@ -10,4 +10,4 @@ cyclo:
 all: fmt test cyclo
 
 bench:
-	go test -bench .
+	go test -bench . -benchmem
