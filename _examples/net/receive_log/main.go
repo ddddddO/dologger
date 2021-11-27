@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"net"
 )
 
@@ -30,7 +31,13 @@ func main() {
 		// 1接続中のdologgerから送られてきたログを1件ずつ処理
 		for {
 			buf := make([]byte, 2048)
-			if _, err := conn.Read(buf); err != nil {
+			_, err := conn.Read(buf)
+			if err != nil {
+				if err == io.EOF {
+					fmt.Println("connection closed...")
+					break
+				}
+
 				fmt.Println("cannot read", err)
 			}
 
