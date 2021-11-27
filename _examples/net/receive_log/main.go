@@ -28,21 +28,24 @@ func main() {
 		}
 		fmt.Println("received")
 
-		// 1接続中のdologgerから送られてきたログを1件ずつ処理
-		for {
-			buf := make([]byte, 2048)
-			_, err := conn.Read(buf)
-			if err != nil {
-				if err == io.EOF {
-					fmt.Println("connection closed...")
-					break
+		// 複数の接続を扱うためgoroutine
+		go func() {
+			// 1接続中のdologgerから送られてきたログを1件ずつ処理
+			for {
+				buf := make([]byte, 2048)
+				_, err := conn.Read(buf)
+				if err != nil {
+					if err == io.EOF {
+						fmt.Println("connection closed...")
+						return
+					}
+
+					fmt.Println("cannot read", err)
 				}
 
-				fmt.Println("cannot read", err)
+				fmt.Println("received log")
+				fmt.Println(string(buf))
 			}
-
-			fmt.Println("received log")
-			fmt.Println(string(buf))
-		}
+		}()
 	}
 }
