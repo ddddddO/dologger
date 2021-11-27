@@ -1,7 +1,7 @@
 # dologger
 
-# sample code
-https://github.com/ddddddO/dologger/blob/main/_examples/main.go
+# sample codes
+https://github.com/ddddddO/dologger/blob/main/_examples
 
 ## refs
 - https://github.com/rs/zerolog
