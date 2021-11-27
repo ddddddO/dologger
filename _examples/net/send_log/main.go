@@ -26,6 +26,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	defer conn.Close()
+
 	log := dologger.New(conn)
 	log.WithJSON()
 

@@ -30,6 +30,8 @@ func main() {
 
 		// 複数の接続を扱うためgoroutine
 		go func() {
+			defer conn.Close()
+
 			// 1接続中のdologgerから送られてきたログを1件ずつ処理
 			for {
 				buf := make([]byte, 2048)
