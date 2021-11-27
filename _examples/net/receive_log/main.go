@@ -26,7 +26,7 @@ func main() {
 		if err != nil {
 			fmt.Println("cannot accept", err)
 		}
-		fmt.Println("received")
+		fmt.Println("connected")
 
 		// 複数の接続を扱うためgoroutine
 		go func() {
