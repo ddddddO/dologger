@@ -1,5 +1,8 @@
 # dologger
 
+- loggerを作ってみたい
+- ログを取り巻くシステムを知ろうとするところ
+
 # sample codes
 
 - [標準出力に出力するサンプル実装](https://github.com/ddddddO/dologger/blob/main/_examples/stdout)
