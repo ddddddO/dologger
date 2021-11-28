@@ -35,7 +35,7 @@ func main() {
 	for t := range ticker.C {
 		fmt.Println("send log")
 
-		// receive_logプロセスへTCPでログを送る
+		// FluentBitへTCPでログを送る
 		log.Debug("for debug").
 			Str("name", "ddddd").
 			Int("second", t.Second()).
