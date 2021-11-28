@@ -60,8 +60,13 @@ redashから以下クエリを実行すると、送出したログの一覧が�
 }
 ```
 
-ElasticSearchもSQLチックにクエリ出来ると思ってたけど違うっぽい。
+ElasticsearchもSQLチックにクエリ出来ると思ってたけど違うっぽい。
 
+終わったらdown
+```sh
+cd ~/work/redash
+docker-compose down
+```
 
 # References
 
