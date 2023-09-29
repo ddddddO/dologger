@@ -6,7 +6,7 @@ import (
 	"io"
 	"strconv"
 
-	g "github.com/ddddddO/gtree"
+	// g "github.com/ddddddO/gtree"
 )
 
 type Logger struct {
@@ -14,7 +14,7 @@ type Logger struct {
 	w    io.Writer
 	mode outputMode
 
-	root *g.Node
+	// root *g.Node
 }
 
 func New(w io.Writer) *Logger {
@@ -55,9 +55,9 @@ func (l *Logger) Debug(msg string) *Logger {
 	case modeJSON:
 		tmp = quote("level") + ":" + quote("DEBUG") + "," + quote("message") + ":" + quote(msg)
 	case modeTree:
-		root := g.NewRoot(addDebugColor("DEBUG"))
-		root.Add("message").Add(msg)
-		l.root = root
+		// root := g.NewRoot(addDebugColor("DEBUG"))
+		// root.Add("message").Add(msg)
+		// l.root = root
 	}
 
 	_, err := l.buf.WriteString(tmp)
@@ -82,9 +82,9 @@ func (l *Logger) Info(msg string) *Logger {
 	case modeJSON:
 		tmp = quote("level") + ":" + quote("INFO") + "," + quote("message") + ":" + quote(msg)
 	case modeTree:
-		root := g.NewRoot(addInfoColor("INFO"))
-		root.Add("message").Add(msg)
-		l.root = root
+		// root := g.NewRoot(addInfoColor("INFO"))
+		// root.Add("message").Add(msg)
+		// l.root = root
 	}
 
 	_, err := l.buf.WriteString(tmp)
@@ -104,7 +104,7 @@ func (l *Logger) Str(key, msg string) *Logger {
 	case modeJSON:
 		tmp = "," + quote(key) + ":" + quote(msg)
 	case modeTree:
-		l.root.Add(key).Add(msg)
+		// l.root.Add(key).Add(msg)
 	}
 
 	_, err := l.buf.WriteString(tmp)
@@ -124,7 +124,7 @@ func (l *Logger) Int(key string, n int) *Logger {
 	case modeJSON:
 		tmp = "," + quote(key) + ":" + strconv.Itoa(n)
 	case modeTree:
-		l.root.Add(key).Add(strconv.Itoa(n))
+		// l.root.Add(key).Add(strconv.Itoa(n))
 	}
 
 	_, err := l.buf.WriteString(tmp)
@@ -150,9 +150,9 @@ func (l *Logger) Out() {
 		tmp = append([]byte("{"), l.buf.Bytes()...)
 		tmp = append(tmp, []byte("}\n")...)
 	case modeTree:
-		if err := g.ExecuteProgrammably(l.w, l.root); err != nil {
-			panic(err)
-		}
+		// if err := g.ExecuteProgrammably(l.w, l.root); err != nil {
+		// 	panic(err)
+		// }
 		return
 	}
 
