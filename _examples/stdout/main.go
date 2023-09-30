@@ -3,15 +3,16 @@ package main
 import (
 	"os"
 
-	"github.com/ddddddO/dologger"
+	// "github.com/ddddddO/dologger"
 )
 
 func main() {
-	plainMode()
-	jsonMode()
-	treeMode()
+	// plainMode()
+	// jsonMode()
+	// treeMode()
 }
 
+/*
 func plainMode() {
 	log := dologger.New(os.Stdout)
 	log.WithPlain()
@@ -57,3 +58,4 @@ func treeMode() {
 	// └── id
 	//     └── 1111
 }
+*/

@@ -5,7 +5,7 @@ import (
 	"net"
 	"time"
 
-	"github.com/ddddddO/dologger"
+	// "github.com/ddddddO/dologger"
 )
 
 const (
@@ -28,17 +28,17 @@ func main() {
 	}
 	defer conn.Close()
 
-	log := dologger.New(conn)
-	log.WithJSON()
+	// log := dologger.New(conn)
+	// log.WithJSON()
 
 	ticker := time.NewTicker(interval)
 	for t := range ticker.C {
 		fmt.Println("send log")
 
 		// FluentBitへTCPでログを送る
-		log.Debug("for debug").
-			Str("name", "ddddd").
-			Int("second", t.Second()).
-			Out()
+		// log.Debug("for debug").
+		// 	Str("name", "ddddd").
+		// 	Int("second", t.Second()).
+		// 	Out()
 	}
 }
